@@ -1,9 +1,11 @@
 # linear algebra
-import numpy as np 
+import numpy as np
 # data processing
-import pandas as pd 
+import pandas as pd
 # Algorithms
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import cross_validate
+from sklearn.model_selection import train_test_split
 
 test_set = pd.read_csv('test.csv')
 train_set = pd.read_csv('train.csv')
@@ -50,11 +52,16 @@ train_X = train_set.drop("Survived", axis = 1)
 train_Y = train_set['Survived']
 test_X = test_set.drop("PassengerId", axis = 1)
 
-d_tree = DecisionTreeClassifier()
+X_train, X_test, Y_train, Y_test = train_test_split(train_X, train_Y, test_size=0.2)
+
+d_tree = DecisionTreeClassifier(max_depth=10)
 d_tree.fit(train_X, train_Y)
+score = d_tree.score(X_test, Y_test)
+print(round(score*100))
+#
+'''
 prediction = d_tree.predict(test_X)
 print(prediction)
 accurarcy = round(d_tree.score(train_X, train_Y)*100)
 print(accurarcy)
-
-
+'''
